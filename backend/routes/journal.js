@@ -6,7 +6,7 @@ const {
   createJournalEntry,
   deleteJournalEntry,
   updateJournalEntry,
-} = require('../controllers/journalControllers');
+} = require('../controllers/journalControllers')
 
 const router = express.Router();
 
