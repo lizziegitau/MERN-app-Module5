@@ -105,7 +105,7 @@ const Timer = ({ meditationId }) => {
 
     const selectedExercise = meditationExercises.find((exercise) => exercise.id === exerciseId);
     const url = 'https://module5-backend-hpov.vercel.app/';
-    axios.post(`${url}/meditation`, selectedExercise)
+    axios.post(`${url}meditation`, selectedExercise)
       .then((response) => {
         alert('Exercise added to the database');
         console.log('Exercise added to the database:', response.data);

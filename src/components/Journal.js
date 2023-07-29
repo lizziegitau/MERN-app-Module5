@@ -18,7 +18,7 @@ const Journal = () => {
     if (title.trim() !== '' && text.trim() !== '') {
       const url = 'https://module5-backend-hpov.vercel.app/';
       try {
-        const response = await axios.post(`${url}/journal`, { title, text });
+        const response = await axios.post(`${url}journal`, { title, text });
         const newEntry = response.data;
         setEntries((prevEntries) => [...prevEntries, newEntry]);
         setTitle('');
@@ -35,7 +35,7 @@ const Journal = () => {
     const url = 'https://module5-backend-hpov.vercel.app/';
     const entryId = entries[index]._id; // Get the ID of the journal entry at the specified index
     try {
-      await axios.delete(`${url}/journal/${entryId}`);
+      await axios.delete(`${url}journal/${entryId}`);
       const updatedEntries = [...entries];
       updatedEntries.splice(index, 1);
       setEntries(updatedEntries);

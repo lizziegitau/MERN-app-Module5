@@ -26,7 +26,7 @@ const Login = () => {
     const formData = { firstName, lastName, password };
 
     axios
-      .post(`${url}/user/`, formData)
+      .post(`${url}user/`, formData)
       .then((response) => {
         console.log('User added to the database:', response.data);
         const newUser = response.data;
@@ -43,7 +43,7 @@ const Login = () => {
     const formData = { firstName, lastName, password };
 
     axios
-      .post(`${url}/user/`, formData)
+      .post(`${url}user/login`, formData)
       .then((response) => {
         console.log('User login successful', response.data);
         const userWithId = response.data;
