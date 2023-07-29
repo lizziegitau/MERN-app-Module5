@@ -22,7 +22,7 @@ const Login = () => {
   };
 
   const handleSignUp = () => {
-    const url = 'https://mern-app-module5.vercel.app/';
+    const url = 'https://module5-backend-hpov.vercel.app/';
     const formData = { firstName, lastName, password };
 
     axios
@@ -39,7 +39,7 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    const url = 'https://mern-app-module5.vercel.app/';
+    const url = 'https://module5-backend-hpov.vercel.app/';
     const formData = { firstName, lastName, password };
 
     axios

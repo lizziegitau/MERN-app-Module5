@@ -16,7 +16,7 @@ const Journal = () => {
 
   const handleAddEntry = async () => {
     if (title.trim() !== '' && text.trim() !== '') {
-      const url = 'https://mern-app-module5.vercel.app/';
+      const url = 'https://module5-backend-hpov.vercel.app/';
       try {
         const response = await axios.post(`${url}/journal`, { title, text });
         const newEntry = response.data;
@@ -32,7 +32,7 @@ const Journal = () => {
   };
 
   const handleDeleteEntry = async (index) => {
-    const url = 'https://mern-app-module5.vercel.app/';
+    const url = 'https://module5-backend-hpov.vercel.app/';
     const entryId = entries[index]._id; // Get the ID of the journal entry at the specified index
     try {
       await axios.delete(`${url}/journal/${entryId}`);

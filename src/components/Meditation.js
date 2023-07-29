@@ -104,7 +104,7 @@ const Timer = ({ meditationId }) => {
     setSelectedExercise(exerciseId);
 
     const selectedExercise = meditationExercises.find((exercise) => exercise.id === exerciseId);
-    const url = 'https://mern-app-module5.vercel.app/';
+    const url = 'https://module5-backend-hpov.vercel.app/';
     axios.post(`${url}/meditation`, selectedExercise)
       .then((response) => {
         alert('Exercise added to the database');
