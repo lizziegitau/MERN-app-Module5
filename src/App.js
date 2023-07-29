@@ -1,11 +1,11 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import Journal from './components/Journal';
-import Meditation from './components/Meditation';
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Home from './components/Home'
+import Journal from './components/Journal'
+import Meditation from './components/Meditation'
 import Login from './components/Login'
 import Profile from './components/Profile'
-import Affirmations from './components/Affirmations';
+import Affirmations from './components/Affirmations'
 import Hotline from './components/Hotline'
 import './App.css'
 
@@ -24,7 +24,7 @@ const App = () => {
         </Routes>
       </div>
     </Router>
-  );
-};
+  )
+}
 
-export default App;
+export default App

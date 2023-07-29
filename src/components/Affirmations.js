@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import affirmationsData from '../data/affirmationsData'
 
 const Affirmations = () => {
-  const [randomAffirmation, setRandomAffirmation] = useState('');
+  const [randomAffirmation, setRandomAffirmation] = useState('')
 
   const getRandomAffirmation = () => {
-    const randomIndex = Math.floor(Math.random() * affirmationsData.length);
-    return affirmationsData[randomIndex];
-  };
+    //Use the floor and random methods to generate a random affirmation
+    const randomIndex = Math.floor(Math.random() * affirmationsData.length)
+    return affirmationsData[randomIndex]
+  }
 
+  //Handles the click of the new affirmation button by calling the getRandomAffirmation function
   const handleNewQuoteClick = () => {
-    const affirmation = getRandomAffirmation();
-    setRandomAffirmation(affirmation);
-  };
+    const affirmation = getRandomAffirmation()
+    setRandomAffirmation(affirmation)
+  }
 
   return (
     <body>
@@ -31,7 +33,7 @@ const Affirmations = () => {
         </div>
       </div>
     </body>
-  );
-};
+  )
+}
 
-export default Affirmations;
+export default Affirmations

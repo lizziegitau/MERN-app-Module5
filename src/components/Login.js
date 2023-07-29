@@ -1,59 +1,64 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/authContext';
-import axios from 'axios';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/authContext'
+import axios from 'axios'
 
 const Login = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [password, setPassword] = useState('');
-  const { loginUser } = useAuth();
-  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [password, setPassword] = useState('')
+  const { loginUser } = useAuth()
+  const navigate = useNavigate()
 
+  //Hanles input change
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     if (name === 'firstName') {
-      setFirstName(value);
+      setFirstName(value)
     } else if (name === 'lastName') {
-      setLastName(value);
+      setLastName(value)
     } else if (name === 'password') {
-      setPassword(value);
+      setPassword(value)
     }
-  };
+  }
 
+  //Function to handle user sign up
   const handleSignUp = () => {
-    const url = 'https://module5-backend-hpov.vercel.app/';
-    const formData = { firstName, lastName, password };
+    const url = 'https://module5-backend-hpov.vercel.app/'
+    const formData = { firstName, lastName, password }
 
+    //Create a new user and add them to the db
     axios
       .post(`${url}user/`, formData)
       .then((response) => {
-        console.log('User added to the database:', response.data);
-        const newUser = response.data;
-        loginUser(newUser);
-        navigate('/profile');
+        console.log('User added to the database:', response.data)
+        const newUser = response.data
+        loginUser(newUser)
+        navigate('/profile')
       })
       .catch((error) => {
-        alert('Error adding user: ' + error.message);
-      });
-  };
+        alert('Error adding user: ' + error.message)
+      })
+  }
 
+  //Handle user login
   const handleLogin = () => {
     const url = 'https://module5-backend-hpov.vercel.app/';
     const formData = { firstName, lastName, password };
 
+    //Fetch data of the user from db
     axios
       .post(`${url}user/login`, formData)
       .then((response) => {
-        console.log('User login successful', response.data);
-        const userWithId = response.data;
-        loginUser(userWithId);
-        navigate('/profile');
+        console.log('User login successful', response.data)
+        const userWithId = response.data
+        loginUser(userWithId)
+        navigate('/profile')
       })
       .catch((error) => {
-        alert('Unauthorized: ' + error.message);
-      });
-  };
+        alert('Unauthorized: ' + error.message)
+      })
+  }
 
   return (
     <div className="login-container">
@@ -100,7 +105,7 @@ const Login = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

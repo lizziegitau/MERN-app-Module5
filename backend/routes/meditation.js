@@ -6,7 +6,6 @@ const {
   deleteMeditation,
   updateMeditation,
 } = require('../controllers/meditationControllers')
-
 const router = express.Router()
 
 //GET all meditations

@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Hotline = () => {
+
     return (
         <div className="hotline">
             <h1>Hotlines and Articles</h1>
@@ -25,6 +26,7 @@ const Hotline = () => {
             </div>
         </div>
     )
+    
 }
 
 export default Hotline

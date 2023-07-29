@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const userRoutes = require('./routes/user')
@@ -11,10 +12,14 @@ const authRoutes = require('./routes/auth')
 const app = express()
   
 //middleware
+//parse incoming json data
 app.use(express.json())
+app.use(cookieParser())
 
+//allow cross-origin requests from all domains
 app.use(cors())
 
+//logs the path and method of incoming requests
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
@@ -26,6 +31,7 @@ app.use('/user', userRoutes)
 app.use('/meditation', meditationRoutes)
 app.use('/journal', journalRoutes)
 
+//connecting to mongodb
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true

@@ -1,63 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Journal = () => {
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
-  const [entries, setEntries] = useState([]);
+  const [title, setTitle] = useState('')
+  const [text, setText] = useState('')
+  const [entries, setEntries] = useState([])
 
+  //Handle the title and text changes in the journal
   const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
+    setTitle(event.target.value)
+  }
 
   const handleTextChange = (event) => {
-    setText(event.target.value);
-  };
+    setText(event.target.value)
+  }
 
+  //Handle the adding of a new journal entry
   const handleAddEntry = async () => {
+    //Checks if the title and text are empty using trim method( used to remove any leading and trailing whitespace characters)
     if (title.trim() !== '' && text.trim() !== '') {
-      const url = 'https://module5-backend-hpov.vercel.app/';
+
+      const url = 'https://module5-backend-hpov.vercel.app/'
+
       try {
-        const response = await axios.post(`${url}journal`, { title, text });
-        const newEntry = response.data;
-        setEntries((prevEntries) => [...prevEntries, newEntry]);
-        setTitle('');
-        setText('');
+        //Add the new entry to the db
+        const response = await axios.post(`${url}journal`, { title, text })
+        const newEntry = response.data
+        //Add the new entry to the array of entries
+        setEntries((prevEntries) => [...prevEntries, newEntry])
+        //Resets the title and text in the journal
+        setTitle('')
+        setText('')
       } catch (error) {
-        alert('Error adding entry. Please try again later.');
+        alert('Error adding entry. Please try again later.')
       }
     } else {
-      alert('Title and text are required.');
+      alert('Title and text are required.')
     }
-  };
+  }
 
+  //Handle the deleting of an entry
   const handleDeleteEntry = async (index) => {
-    const url = 'https://module5-backend-hpov.vercel.app/';
-    const entryId = entries[index]._id; // Get the ID of the journal entry at the specified index
-    try {
-      await axios.delete(`${url}journal/${entryId}`);
-      const updatedEntries = [...entries];
-      updatedEntries.splice(index, 1);
-      setEntries(updatedEntries);
-    } catch (error) {
-      alert('Error deleting journal entry. Please try again later.');
-    }
-  };
 
+    const url = 'https://module5-backend-hpov.vercel.app/'
+
+    const entryId = entries[index]._id; // Get the ID of the journal entry at the specified index
+
+    try {
+      //Deletes the entry from the db
+      await axios.delete(`${url}journal/${entryId}`)
+      //Returns the other entries minus the deleted one using the splice method
+      const updatedEntries = [...entries]
+      updatedEntries.splice(index, 1)
+      setEntries(updatedEntries)
+    } catch (error) {
+      alert('Error deleting journal entry. Please try again later.')
+    }
+  }
+
+  //Set up an axios interceptor using the useEffect hook
   useEffect(() => {
+    //Create a new interceptor to be triggered before any outgoing request is sent
     const axiosInterceptor = axios.interceptors.request.use((config) => {
-      const token = localStorage.getItem('accessToken'); // Assuming your JWT token is stored in localStorage
+      //Gets the accessToken from local storage
+      const token = localStorage.getItem('accessToken') // Assuming your JWT token is stored in localStorage
+      //If the token exists add it to the authorization header as a bearer token
       if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`
       }
-      return config;
-    });
+      return config
+    })
 
     // Clean up the interceptor when the component is unmounted
     return () => {
-      axios.interceptors.request.eject(axiosInterceptor);
-    };
-  }, []);
+      //Remove the interceptor using eject()
+      axios.interceptors.request.eject(axiosInterceptor)
+    }
+  }, [])
 
   return (
     <div className="journal-container">
@@ -94,7 +113,7 @@ const Journal = () => {
         <button onClick={handleAddEntry}>Add Entry</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Journal;
+export default Journal

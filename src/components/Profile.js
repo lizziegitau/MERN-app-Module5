@@ -1,15 +1,15 @@
-// src/components/Home.js
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/authContext'
 
 const Profile = () => {
   const { user, logoutUser } = useAuth()
 
+  //Call the logoutUser function from context to handle user logout
   const handleLogout = () => {
     // Call the logoutUser function from the AuthContext
-    logoutUser();
-  };
+    logoutUser()
+  }
 
   return (
     <div className="profile">
@@ -48,7 +48,7 @@ const Profile = () => {
         </button>
       </nav>
     </div>
-  );
-};
+  )
+}
 
 export default Profile

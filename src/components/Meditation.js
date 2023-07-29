@@ -1,51 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Timer = ({ meditationId }) => {
-  const [seconds, setSeconds] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [seconds, setSeconds] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
+  const [selectedExercise, setSelectedExercise] = useState(null)
 
   useEffect(() => {
-    let intervalId;
+    let intervalId
 
+    //Checks if the timer is running
     if (isRunning) {
+      //Set an interval that runs every second
       intervalId = setInterval(() => {
-        setSeconds((prevSeconds) => prevSeconds + 1);
-      }, 1000);
+        setSeconds((prevSeconds) => prevSeconds + 1)
+      }, 1000)
     }
 
     return () => {
-      clearInterval(intervalId);
-    };
-  }, [isRunning]);
+      clearInterval(intervalId)
+    }
+  }, [isRunning])
 
+  //Starts the timer
   const handleStartClick = () => {
-    setIsRunning(true);
-  };
+    setIsRunning(true)
+  }
 
+  //Stops the timer
   const handleStopClick = () => {
-    setIsRunning(false);
-  };
+    setIsRunning(false)
+  }
 
+  //Resets the timer
   const handleResetClick = () => {
-    setIsRunning(false);
-    setSeconds(0);
-  };
+    setIsRunning(false)
+    setSeconds(0)
+  }
 
+  //Formats the time to minutes and seconds
   const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
+    const minutes = Math.floor(time / 60)
+    const seconds = time % 60
 
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0')
+    const formattedSeconds = String(seconds).padStart(2, '0')
 
     return (
       <div className="time">
         <span className="minutes">{formattedMinutes}</span>:<span className="seconds">{formattedSeconds}</span>
       </div>
-    );
-  };
+    )
+  }
 
   const meditationExercises = [
     {
@@ -100,21 +106,27 @@ const Timer = ({ meditationId }) => {
     }
   ]
 
+  //Handles the click of a meditation click
   const handleExerciseClick = (exerciseId) => {
-    setSelectedExercise(exerciseId);
+    //Sets the selected exercise to its id
+    setSelectedExercise(exerciseId)
 
-    const selectedExercise = meditationExercises.find((exercise) => exercise.id === exerciseId);
-    const url = 'https://module5-backend-hpov.vercel.app/';
+    //Finds the selected exercise
+    const selectedExercise = meditationExercises.find((exercise) => exercise.id === exerciseId)
+
+    const url = 'https://module5-backend-hpov.vercel.app/'
+
+    //Adds the selected exercise to the db
     axios.post(`${url}meditation`, selectedExercise)
       .then((response) => {
-        alert('Exercise added to the database');
-        console.log('Exercise added to the database:', response.data);
+        alert('Exercise added to the database')
+        console.log('Exercise added to the database:', response.data)
       })
       .catch((error) => {
-        alert('Error adding exercise: ' + error.message);
-        console.error('Error adding exercise:', error);
-      });
-  };
+        alert('Error adding exercise: ' + error.message)
+        console.error('Error adding exercise:', error)
+      })
+  }
 
   return (
     <div className="meditation">
@@ -141,7 +153,7 @@ const Timer = ({ meditationId }) => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Timer;
+export default Timer

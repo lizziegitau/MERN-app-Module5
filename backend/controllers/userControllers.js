@@ -18,12 +18,14 @@ const getUserById = async (req, res) => {
 
   const userId = req.params.id
 
+  //Checks if the userId is a valid mongoose ObjectId 
   if(!mongoose.Types.ObjectId.isValid(userId)) {
     return res.status(404).json({error: 'No such user'})
 }
 
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId)
+    //Checks if the user with the above id exists
     if (!user) {
       return res.status(404).json({ error: 'User not found' })
     }
@@ -37,8 +39,10 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
   const { firstName, lastName, password } = req.body
 
+  //Assigns variable to an empty array
   let emptyFields = []
 
+  //Checks if the firstName, lastName, password exist
     if(!firstName) {
         emptyFields.push('firstName')
     }
@@ -52,8 +56,8 @@ const createUser = async (req, res) => {
         return res.status(400).json({error: 'Please fill in all the fields', emptyFields})
     }
 
-// Hash the password
-const hashedPassword = await bcrypt.hash(password, 10);
+// Hash the password using bcrypt
+const hashedPassword = await bcrypt.hash(password, 10)
 
 //add the user to the db
   try {
@@ -75,6 +79,7 @@ const deleteUser = async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(userId)
 
+    //Checks if the deleted user exists
     if (!deletedUser) {
       return res.status(404).json({ error: 'User not found' })
     }
@@ -96,6 +101,7 @@ const updateUser = async (req, res) => {
     const updatedUser = await User.findOneAndUpdate({_id: userId}, {
         ...req.body
     }, {new: true})
+    //Checks if the updated user exists
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' })
     }
@@ -107,27 +113,28 @@ const updateUser = async (req, res) => {
 
 //Handle user login
 const userLogin = async (req, res) => {
-  const { firstName, lastName, password } = req.body;
+  const { firstName, lastName, password } = req.body
 
   try {
     // Check if the user exists
-    const user = await User.findOne({ firstName, lastName });
+    const user = await User.findOne({ firstName, lastName })
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'User not found' })
     }
 
-    // Verify the password
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    // Verify the password by comparing it the the hashed password
+    const passwordMatch = await bcrypt.compare(password, user.password)
+    //Checks if the passwords match
     if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ error: 'Invalid credentials' })
     }
 
     // Generate a JWT and send it as a response
     const tokenSecret = process.env.ACCESS_TOKEN_SECRET
-    const token = jwt.sign({ userId: user._id }, tokenSecret);
-    res.json({ token });
+    const token = jwt.sign({ userId: user._id }, tokenSecret)
+    res.json({ token })
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' })
   }
 }
 

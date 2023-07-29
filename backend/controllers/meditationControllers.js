@@ -4,91 +4,97 @@ const mongoose = require('mongoose')
 // Get all meditations
 const getAllMeditations = async (req, res) => {
   try {
-    const meditations = await Meditation.find();
-    res.status(200).json(meditations);
+    const meditations = await Meditation.find()
+    res.status(200).json(meditations)
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' })
   }
-};
+}
 
 // Get a single meditation by ID
 const getMeditationById = async (req, res) => {
-  const meditationId = req.params.id;
+  const meditationId = req.params.id
 
+  //Checks if meditation id is valid
   if (!mongoose.Types.ObjectId.isValid(meditationId)) {
-    return res.status(404).json({ error: 'Invalid meditation ID' });
+    return res.status(404).json({ error: 'Invalid meditation ID' })
   }
 
   try {
-    const meditation = await Meditation.findById(meditationId);
+    const meditation = await Meditation.findById(meditationId)
+
+    //Checks if the meditation exists
     if (!meditation) {
-      return res.status(404).json({ error: 'Meditation not found' });
+      return res.status(404).json({ error: 'Meditation not found' })
     }
-    res.status(200).json(meditation);
+    res.status(200).json(meditation)
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' })
   }
-};
+}
 
 // Create a new meditation
 const createMeditation = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description } = req.body
 
+  //Checks if the title and description exist in the meditation
   if (!title || !description) {
     return res
       .status(400)
-      .json({ error: 'Please provide title and description' });
+      .json({ error: 'Please provide title and description' })
   }
 
   try {
-    const newMeditation = await Meditation.create({ title, description});
-    res.status(201).json(newMeditation);
+    const newMeditation = await Meditation.create({ title, description})
+    res.status(201).json(newMeditation)
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' })
   }
-};
+}
 
 // Delete a meditation by ID
 const deleteMeditation = async (req, res) => {
-  const meditationId = req.params.id;
+  const meditationId = req.params.id
 
   if (!mongoose.Types.ObjectId.isValid(meditationId)) {
-    return res.status(404).json({ error: 'Invalid meditation ID' });
+    return res.status(404).json({ error: 'Invalid meditation ID' })
   }
 
   try {
-    const deletedMeditation = await Meditation.findByIdAndDelete(meditationId);
+    const deletedMeditation = await Meditation.findByIdAndDelete(meditationId)
     if (!deletedMeditation) {
-      return res.status(404).json({ error: 'Meditation not found' });
+      return res.status(404).json({ error: 'Meditation not found' })
     }
-    res.status(200).json({ message: 'Meditation deleted successfully' });
+    res.status(200).json({ message: 'Meditation deleted successfully' })
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' })
   }
-};
+}
 
 // Update a meditation by ID
 const updateMeditation = async (req, res) => {
-  const meditationId = req.params.id;
+  const meditationId = req.params.id
 
   if (!mongoose.Types.ObjectId.isValid(meditationId)) {
-    return res.status(404).json({ error: 'Invalid meditation ID' });
+    return res.status(404).json({ error: 'Invalid meditation ID' })
   }
 
   try {
     const updatedMeditation = await Meditation.findByIdAndUpdate(
       meditationId,
       { ...req.body },
+      //Ensures mongoose returns the updated doc instead of the original one
       { new: true }
-    );
+    )
+    //Checks if the updated meditation exists
     if (!updatedMeditation) {
-      return res.status(404).json({ error: 'Meditation not found' });
+      return res.status(404).json({ error: 'Meditation not found' })
     }
-    res.status(200).json(updatedMeditation);
+    res.status(200).json(updatedMeditation)
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' })
   }
-};
+}
 
 module.exports = {
   getAllMeditations,
@@ -96,4 +102,4 @@ module.exports = {
   createMeditation,
   deleteMeditation,
   updateMeditation,
-};
+}

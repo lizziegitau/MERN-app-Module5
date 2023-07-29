@@ -1,5 +1,5 @@
 const express= require('express')
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 const {
     getAllUsers,
   getUserById,
@@ -8,7 +8,6 @@ const {
   updateUser,
   userLogin
 } = require('../controllers/userControllers')
-
 const router = express.Router()
 
 //GET all users
